@@ -42,24 +42,56 @@ document.querySelector(".btn-roll").addEventListener("click", function () {
     roundScore = roundScore + diceNumber;
     document.getElementById("current-" + activePlayer).textContent = roundScore;
   } else {
-    // 1 буусан тул тоглогчийн ээлжийг энэ хэсэгт сольж өгнө
-
-    // Энэ тоглогчийн ээлжийг энэ хэсэгт сольж өгнө
-    roundScore = 0;
-    document.getElementById("current-" + activePlayer).textContent = 0;
-
-    //Тоглогчийн ээлжийг нөгөө тоглогч руу шилжүүлнэ
-    // Хэрэв идэвхтэй тоглогч нь 0 байвал идвэхтэй тоглогчийг 1 болго
-    // Үгүй бол идвэхтэй тоглогчийг 0 болго
-    activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0); //гурвалсан оператор
-
-    // Улаан цэгийг шилжүүлэх код
-    //document.querySelector(".player-0-panel").classList.remove("active");
-    //document.querySelector(".player-1-panel").classList.add("active");
-    document.querySelector(".player-0-panel").classList.toggle("active"); // toggle одоо байгаа төлөвийг нь нэмэх, эсвэл устгах эсэргээр нь нөлөөлнө
-    document.querySelector(".player-1-panel").classList.toggle("active");
-
-    // шоог үр алга болгох
-    diceDom.style.display = "none";
+    switchToNextPlayer();
   }
 });
+
+// HOLD товчны эвент листенер
+document.querySelector(".btn-hold").addEventListener("click", function () {
+  // Уг тоглогчийн цуглуулсан ээлжний оноог глобал оноон дээр нь нэмж өгнө
+  scores[activePlayer] = scores[activePlayer] + roundScore;
+
+  // Дэлгэц дээрх оноог өөрчлөх
+  document.getElementById("score-" + activePlayer).textContent =
+    scores[activePlayer];
+
+  // Уг тоглогч хожсон эсэхийг шалгах буюу оноо нь 100с их эсэх
+  if (scores[activePlayer] >= 50) {
+    // Ялагч гэсэн текстийг нэрний оронд гаргана
+    document.getElementById("name-" + activePlayer).textContent = "WINNER!!!";
+    document
+      .querySelector(".player-" + activePlayer + "-panel")
+      .classList.add("winner");
+    document
+      .querySelector(".player-" + activePlayer + "-panel")
+      .classList.remove("active");
+  } else {
+    // Тоглогчийн ээлжийг сольно
+    switchToNextPlayer();
+  }
+});
+
+// Энэ функц нь тоглох ээлжийг дараачин тоглогч руу шилжүүлдэг.
+function switchToNextPlayer() {
+  // 1 буусан тул тоглогчийн ээлжийг энэ хэсэгт сольж өгнө
+  // Энэ тоглогчийн ээлжийг энэ хэсэгт сольж өгнө
+  roundScore = 0;
+  document.getElementById("current-" + activePlayer).textContent = 0;
+
+  //Тоглогчийн ээлжийг нөгөө тоглогч руу шилжүүлнэ
+  // Хэрэв идэвхтэй тоглогч нь 0 байвал идвэхтэй тоглогчийг 1 болго
+  // Үгүй бол идвэхтэй тоглогчийг 0 болго
+  activePlayer === 0 ? (activePlayer = 1) : (activePlayer = 0); //гурвалсан оператор
+
+  // Улаан цэгийг шилжүүлэх код
+  //document.querySelector(".player-0-panel").classList.remove("active");
+  //document.querySelector(".player-1-panel").classList.add("active");
+  document.querySelector(".player-0-panel").classList.toggle("active"); // toggle одоо байгаа төлөвийг нь нэмэх, эсвэл устгах эсэргээр нь нөлөөлнө
+  document.querySelector(".player-1-panel").classList.toggle("active");
+
+  // шоог үр алга болгох
+  diceDom.style.display = "none";
+}
+
+// Шинэ тоглоом эхлүүлэх товчний эвэнт листенер
+document.querySelector(".btn-new").addEventListener("click", function () {});
