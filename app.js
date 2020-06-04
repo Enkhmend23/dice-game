@@ -1,18 +1,7 @@
-// Тоглогчийн ээлжийг хадгалах хувьсагч, нэгдүгээр тоглогчийг 0, хоёрдугаар тоглогчийг 1 гэж тэмдэглэе
-var activePlayer = 0;
-
-// Тоглогчдын цуглуулсан оноог хадгалах хувьсагч
+// Тоглоомын бүх газарт ашиглагдах глобал хувьсагчдыг энд зарлая
+var activePlayer;
 var scores = [0, 0];
-
-// Тоглогчийн ээлжиндээ цуглуулж байгаа оноог хадгалах хувьсагч
 var roundScore = 0;
-
-// Програм эхлэхэд бэлтгэе
-document.getElementById("score-0").textContent = "0"; // энэ нь querySelector -оос илүү хурдан ажилладаг, тиймээс id гаар хайж байгаа үед getElementById гаар
-document.getElementById("current-0").textContent = "0";
-document.getElementById("current-1").textContent = "0";
-document.getElementById("score-0").textContent = "0";
-document.getElementById("score-1").textContent = "0";
 
 // document.querySelector(".btn-roll").addEventListener("click", shooShid);
 // function shooShid() {
@@ -22,7 +11,9 @@ document.getElementById("score-1").textContent = "0";
 // }
 
 var diceDom = document.querySelector(".dice");
-diceDom.style.display = "none";
+
+// Тоглоомыг эхлүүл
+initGame();
 
 // Шоог шидэх эвент листенер
 // Anonymous буюу нэргүй функц ашиглав
@@ -94,4 +85,36 @@ function switchToNextPlayer() {
 }
 
 // Шинэ тоглоом эхлүүлэх товчний эвэнт листенер
-document.querySelector(".btn-new").addEventListener("click", function () {});
+document.querySelector(".btn-new").addEventListener("click", function () {
+  initGame();
+});
+
+function initGame() {
+  // Тоглогчийн ээлжийг хадгалах хувьсагч, нэгдүгээр тоглогчийг 0, хоёрдугаар тоглогчийг 1 гэж тэмдэглэе
+  activePlayer = 0;
+
+  // Тоглогчдын цуглуулсан оноог хадгалах хувьсагч
+  scores = [0, 0];
+
+  // Тоглогчийн ээлжиндээ цуглуулж байгаа оноог хадгалах хувьсагч
+  roundScore = 0;
+
+  // Програм эхлэхэд бэлтгэе
+  document.getElementById("score-0").textContent = "0"; // энэ нь querySelector -оос илүү хурдан ажилладаг, тиймээс id гаар хайж байгаа үед getElementById гаар
+  document.getElementById("current-0").textContent = "0";
+  document.getElementById("current-1").textContent = "0";
+  document.getElementById("score-0").textContent = "0";
+  document.getElementById("score-1").textContent = "0";
+  diceDom.style.display = "none";
+
+  // Тоглогчдын нэрийг буцааж гаргах
+  document.getElementById("name-0").textContent = "Player1";
+  document.getElementById("name-1").textContent = "Player2";
+
+  document.querySelector(".player-0-panel").classList.remove("winner");
+  document.querySelector(".player-1-panel").classList.remove("winner");
+
+  document.querySelector(".player-0-panel").classList.remove("active");
+  document.querySelector(".player-1-panel").classList.remove("active");
+  document.querySelector(".player-0-panel").classList.add("active");
+}
